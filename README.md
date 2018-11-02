@@ -5,7 +5,7 @@ Config Facade is an useful facade for multiple configurations using different li
 
 # Problem
 Many times we begin projects with different libraries in order to provide configurations for our apps and every time we have to implement new logics for the same features. This is a **big problem of abstraction**.
-When you decide to use a specific library, you import it from github and you use it for whole project. But what happens if you need to change library for some reasons? You have to refactor everything and implement again the logics if you are enough unlucky.
+When you decide to use a specific library, you import it from github and you use it for whole project. But what happens if you need to change library for some reason? You have to refactor everything and implement again the logics if you are enough unlucky.
 
 # Solution
 It would be nice if a common wrapper could implement the main features without thinking too much about which libraries we have decided to use. In this way, we will be able to use different libraries in the future and extend our projects compatibility.
