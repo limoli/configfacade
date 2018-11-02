@@ -78,6 +78,6 @@ type Config interface {
 	Get(key string) interface{}
 }
 ```
-
+The best thing you could do is to **implement this interface directly on the library** in order to remove the libraries as internal dependencies from configfacade project.
 
 
