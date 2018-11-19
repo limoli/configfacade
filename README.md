@@ -1,5 +1,5 @@
 # Config Facade
-[![GoDoc](https://godoc.org/limoli/dbshift?status.svg)](https://godoc.org/github.com/limoli/dbshift)
+[![GoDoc](https://godoc.org/limoli/configfacade?status.svg)](https://godoc.org/github.com/limoli/configfacade)
 [![Go Report Card](https://goreportcard.com/badge/github.com/limoli/configfacade)](https://goreportcard.com/report/github.com/limoli/configfacade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/988c97ce3d1495e953a2/maintainability)](https://codeclimate.com/github/limoli/configfacade/maintainability)
 
