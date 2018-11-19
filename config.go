@@ -2,20 +2,15 @@ package configfacade
 
 type Config interface {
 	LoadFile(path string, filename string, extension string) error
-	LoadEnvVars(vars []EnvVar) error
+	LoadEnvVars(vars map[string]string) error
 	Get(key string) interface{}
-}
-
-type EnvVar struct {
-	Key string
-	Env string
 }
 
 type Settings struct {
 	Path      string
 	Name      string
 	Extension string
-	EnvVars   []EnvVar
+	EnvVars   map[string]string
 }
 
 func Init(c Config, s Settings) (Config, error) {
