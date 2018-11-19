@@ -1,7 +1,7 @@
 # Config Facade
 [![Build Status](https://travis-ci.org/limoli/configfacade.svg?branch=master)](https://travis-ci.org/limoli/configfacade)
 
-Config Facade is an useful facade for multiple configurations using different libraries (e.g. viper).
+Config Facade is a simple facade for multiple configurations using different libraries.
 
 # Problem
 Many times we begin projects with different libraries in order to provide configurations for our apps and every time we have to implement new logics for the same features. This is a **big problem of abstraction**.
@@ -15,12 +15,12 @@ What you will able to do:
 - choose any compatible library
  
 # Compatible libraries
-- [Viper](https://github.com/spf13/viper)
+- [Viper](https://github.com/limoli/viper)
 
 # Installation
 
 ```sh
-dep ensure --add github.com/limoli/configfacade
+dep ensure -add github.com/limoli/configfacade
 ``` 
 
 # Example
@@ -34,12 +34,17 @@ app:
 
 **main.go**
 It initialises a configuration instance using Viper library. As for settings, it defines the configuration file to read and the possible environment variables which can override the default configuration value.
+
+```sh
+dep ensure -add github.com/limoli/viper@master
+``` 
+
 ```go
 package main
 
 import (
     "github.com/limoli/configfacade"
-    "github.com/limoli/configfacade/viper"
+    "github.com/limoli/viper"
     "log"
     "os"
 )
@@ -48,12 +53,12 @@ var Config config.Config
 
 func main() {
     // Initialisation 
-    Config, err := config.Init(new(viper.Config), config.Settings{
+    Config, err := config.Init(new(viper.Facade), config.Settings{
         Path:      "./extra/config/",
         Name:      os.Getenv("APP_ENV"),
         Extension: "yaml",
-        EnvVars: []config.EnvVar{
-            {"app.port", "APP_PORT"},
+        EnvVars: map[string]string{
+            "app.port": "APP_PORT",
         },
     })
     if err != nil {
@@ -69,15 +74,15 @@ func main() {
 
 # Contribute
 Would you like to see a library in the compatible list? 
-Just ask or implement yourself the `Config` interface and send a pull request.
+Just implement the `Config` interface and send a pull request.
 
 ```go
 type Config interface {
 	LoadFile(path string, filename string, extension string) error
-	LoadEnvVars(vars []EnvVar) error
+	LoadEnvVars(vars map[string]string) error
 	Get(key string) interface{}
 }
 ```
-The best thing you could do is to **implement this interface directly on the library** in order to remove the libraries as internal dependencies from configfacade project.
+The best thing you could do is to **implement this interface directly on the library**.
 
 
