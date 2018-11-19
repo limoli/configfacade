@@ -1,5 +1,7 @@
 # Config Facade
-[![Build Status](https://travis-ci.org/limoli/configfacade.svg?branch=master)](https://travis-ci.org/limoli/configfacade)
+[![GoDoc](https://godoc.org/limoli/dbshift?status.svg)](https://godoc.org/github.com/limoli/dbshift)
+[![Go Report Card](https://goreportcard.com/badge/github.com/limoli/configfacade)](https://goreportcard.com/report/github.com/limoli/configfacade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/988c97ce3d1495e953a2/maintainability)](https://codeclimate.com/github/limoli/configfacade/maintainability)
 
 Config Facade is a simple facade for multiple configurations using different libraries.
 
@@ -40,35 +42,39 @@ dep ensure -add github.com/limoli/viper@master
 ``` 
 
 ```go
-package main
-
 import (
-    "github.com/limoli/configfacade"
-    "github.com/limoli/viper"
-    "log"
-    "os"
+	"github.com/limoli/configfacade"
+	"github.com/limoli/viper"
+	"log"
+	"os"
+	"path/filepath"
+	"runtime"
 )
 
-var Config config.Config
+var config configfacade.Config
 
-func main() {
-    // Initialisation 
-    Config, err := config.Init(new(viper.Facade), config.Settings{
-        Path:      "./extra/config/",
-        Name:      os.Getenv("APP_ENV"),
-        Extension: "yaml",
-        EnvVars: map[string]string{
-            "app.port": "APP_PORT",
-        },
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-    
-    // Use of configuration
-    port := Config.Get("app.port").(string)
-    log.Println("Port", port)
+func init() {
+	var err error
 
+	// filepath.Abs uses working directory and it can change during tests
+	_, currentFilePath, _, _ := runtime.Caller(0)
+	path := filepath.Join(filepath.Dir(currentFilePath), "config")
+
+	config, err = configfacade.Init(new(viper.Facade), configfacade.Settings{
+		Path:      path,
+		Name:      os.Getenv("APP_ENV"),
+		Extension: "yaml",
+		EnvVars: map[string]string{
+			"app.db.user":     "MYSQL_USER",
+			"app.db.password": "MYSQL_PASSWORD",
+			"app.db.host":     "MYSQL_HOST",
+			"app.db.port":     "MYSQL_PORT",
+			"app.db.name":     "MYSQL_DATABASE",
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ``` 
 
